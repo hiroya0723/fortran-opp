@@ -14,15 +14,22 @@ program SolarSystem
   integer,parameter :: output_unit = 697
   real(8),parameter :: Astronomicalunit = 1.496d11
 
-  type(AstronomicalObject) :: earth
+  type(AstronomicalObject),allocatable :: stars(:)
+  integer :: i,j,N
+  N=3
+  allocate(stars(N))
   open(unit = input_unit, file = 'planet.dat', action='read')
-  read(input_unit,*) earth%name,earth%posi%x,earth%mass,earth%velo%y
-  earth%posi%y = 0d0
-  earth%velo%x = 0d0
-  earth%accl = Vector2d(0d0,0d0)
+  do i=1,N
+    read(input_unit,*) stars(i)%name,stars(i)%posi%x,stars(i)%mass,stars(i)%velo%y
+    stars(i)%posi%y = 0d0
+    stars(i)%velo%x = 0d0
+    stars(i)%accl = Vector2d(0d0,0d0)
+  end do
   close(input_unit)
 
-  open(unit = output_unit, file = trim(earth%name)//'.txt', action='write')
-  write(output_unit,*) earth%posi%x/Astronomicalunit,earth%posi%y/Astronomicalunit
+  open(unit = output_unit, file = 'aaaaa.txt', action='write')
+  do i=1,N
+    write(output_unit,*) stars(i)%posi%x/Astronomicalunit,stars(i)%posi%y/Astronomicalunit
+  end do
   close(output_unit)
 end program SolarSystem
